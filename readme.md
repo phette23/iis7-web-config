@@ -11,7 +11,7 @@ Much of the code comes from the [HTML5 Boilerplate server configs](https://githu
 
 ## Caching is hard
 
-What's wrong with the H5BP web.configs? They *far-future cache an appcache manifest* which is a horrible idea [REM: appcache douchebag]. That makes it impossible to update a website for the duration set in the expires header. Their ETags removal doesn't work either & in the process is screws up the Chrome Frame header. So the caching is screwed up & you won't force the best available rendering engine in IE. Chances are if you don't use an appcache (I do) you'll be fine with their web.config.
+What's wrong with the H5BP web.configs? They *far-future cache an appcache manifest* which is [a horrible idea](https://speakerdeck.com/jaffathecake/application-cache-douchebag?slide=35 "Pertinent slide from the Appcache Douchebag deck"). That makes it impossible to update a website for the duration set in the expires header. Their ETags removal doesn't work either & in the process is screws up the Chrome Frame header. So the caching is screwed up & you won't force the best available rendering engine in IE. Chances are if you don't use an appcache (I do) you'll be fine with their web.config.
 
 In order to cache static content _without_ caching .manifest files, I've unfortunately had to resort to using a directory structure that disables caching at the root and then enables it in subdirectory which holds all the static assets. So the root holds the script or HTML file and the appcache, while JS, CSS, and images would all be in subdirectories which use the static/web.config in this repo.
 
