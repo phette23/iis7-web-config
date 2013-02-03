@@ -11,13 +11,13 @@ Much of the code comes from the [HTML5 Boilerplate server configs](https://githu
 
 ## Caching is hard
 
-What's wrong with the H5BP web.configs? They *far-future cache an appcache manifest* which is [a horrible idea](https://speakerdeck.com/jaffathecake/application-cache-douchebag?slide=35 "Pertinent slide from the Appcache Douchebag deck"). That makes it impossible to update a website for the duration set in the expires header. Their ETags removal doesn't work either & in the process is screws up the Chrome Frame header. So the caching is screwed up & you won't force the best available rendering engine in IE. Chances are if you don't use an appcache (I do) you'll be fine with their web.config.
+What's wrong with the H5BP web.configs? They *far-future cache an appcache manifest* which is [a horrible idea](https://speakerdeck.com/jaffathecake/application-cache-douchebag?slide=35 "Pertinent slide from the Appcache Douchebag deck"). That makes it impossible to update a website for the duration set in the expires header. HTML is also far-future cached which makes it impossible to update references to other resources. Their ETags removal doesn't work either & in the process screws up the Chrome Frame header. So the caching is screwed up & you won't force the best available rendering engine in IE. Chances are if you don't use an appcache (I do, sometimes) you'll be fine with their web.config.
 
-In order to cache static content _without_ caching .manifest files, I've unfortunately had to resort to using a directory structure that disables caching at the root and then enables it in subdirectory which holds all the static assets. So the root holds the script or HTML file and the appcache, while JS, CSS, and images would all be in subdirectories which use the static/web.config in this repo.
+In order to cache static content _without_ caching HTML and .manifest files, I've unfortunately had to resort to using a directory structure that disables caching at the root and then enables it in subdirectory which holds all the static assets. So the root holds the server-side script or HTML file and the appcache, while JS, CSS, and images would all be in subdirectories which use the static/web.config in this repo.
 
 ## Testing Notes
 
-I test using ```curl``` in bash. If there's a better way, I don't know it.
+I test using `curl` in bash. If there's a better way, I don't know it.
 
 ```bash
 curl -LI http://domain.tld/path/to/file
@@ -30,11 +30,11 @@ HTTP/1.1 200 OK
 Cache-Control: no-cache
 Content-Length: 31991
 Content-Type: text/html; charset=UTF-8
-Last-Modified: Mon, 05 Nov 2012 16:20:17 GMT
+Last-Modified: Mon, 05 Jan 1904 16:20:17 GMT
 Accept-Ranges: bytes
-Server: Microsoft-IIS/7.5
+Server:
 X-UA-Compatible: IE=Edge,chrome=1
-Date: Sat, 08 Dec 2012 22:58:15 GMT
+Date: Mon, 16 Jun 1904 22:58:15 GMT
 ```
 
 while
@@ -50,11 +50,11 @@ HTTP/1.1 200 OK
 Cache-Control: max-age=5184000
 Content-Length: 7825
 Content-Type: image/png
-Last-Modified: Tue, 18 Sep 2012 20:37:35 GMT
+Last-Modified: Tue, 18 Jan 1904 20:37:35 GMT
 Accept-Ranges: bytes
-Server: Microsoft-IIS/7.5
+Server:
 X-UA-Compatible: IE=Edge,chrome=1
-Date: Sat, 08 Dec 2012 22:59:29 GMT
+Date: Mon, 16 Jun 1904 22:59:29 GMT
 ```
 
 Note the differences in the Cache-Control header.
