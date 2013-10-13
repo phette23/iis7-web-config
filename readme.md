@@ -2,18 +2,18 @@
 
 This is a sample web.config file for applying performance optimizations & security tweaks in Microsoft's proprietary server software. The overall goals are:
 
-- GZIP responses (the httpCompression section)
-- Setup a caching framework (the staticContent section of static/web.config)
-- Force the latest IE rendering engine or Chrome Frame (the X-UA-Compatible header)
+- GZIP responses (the `httpCompression` section)
+- Setup a caching framework (the `staticContent` section of static/web.config)
+- Force the latest IE rendering engine (the `X-UA-Compatible` header)
 - Don't unnecessarily reveal server information
 
-Much of the code comes from the [HTML5 Boilerplate server configs](https://github.com/h5bp/server-configs/) repo, but I've had to break off on my own because A) there are some serious problems with their approach & B) no one seems to maintain it. I filed [an issue](https://github.com/h5bp/server-configs/issues/90) that's been left open for months without response. It's still an excellent project, and maybe the non-IIS settings are of higher quality, but I need a better source of IIS defaults.
+Much of the code comes from the [HTML5 Boilerplate server configs](https://github.com/h5bp/server-configs/) repo, but I had to break off on my own because there are some problems with their approach. It's still an excellent project but I needed a better source of IIS defaults. I may need to revisit the H5BP project because it looks like it's [being maintained a lot better now](https://github.com/h5bp/server-configs-iis/commits/master).
 
 ## Caching is hard
 
-What's wrong with the H5BP web.configs? They *far-future cache an appcache manifest* which is [a horrible idea](https://speakerdeck.com/jaffathecake/application-cache-douchebag?slide=35 "Pertinent slide from the Appcache Douchebag deck"). That makes it impossible to update a website for the duration set in the expires header. HTML is also far-future cached which makes it impossible to update references to other resources. Their ETags removal doesn't work either & in the process screws up the Chrome Frame header. So the caching is screwed up & you won't force the best available rendering engine in IE. Chances are if you don't use an appcache (I do, sometimes) you'll be fine with their web.config.
+What's wrong with the H5BP web.configs? They *far-future cache an appcache manifest* which is [a bad idea](https://speakerdeck.com/jaffathecake/application-cache-douchebag?slide=35 "Pertinent slide from the Appcache Douchebag deck"). That makes it impossible to update a website for the duration set in the expires header. HTML is also far-future cached which makes it impossible to update references to other resources. If you don't use an appcache (I do, sometimes), you may be fine with their web.config.
 
-In order to cache static content _without_ caching HTML and .manifest files, I've unfortunately had to resort to using a directory structure that disables caching at the root and then enables it in subdirectory which holds all the static assets. So the root holds the server-side script or HTML file and the appcache, while JS, CSS, and images would all be in subdirectories which use the static/web.config in this repo.
+In order to cache static content _without_ caching HTML and .manifest files, I've unfortunately had to resort to using a directory structure that disables caching at the root and then enables it in subdirectory which holds all the static assets. So the root holds the server-side scripts or HTML files and the appcache, while JS, CSS, and images would all be in subdirectories which use the static/web.config in this repo.
 
 ## Testing Notes
 
@@ -63,7 +63,7 @@ Note the differences in the Cache-Control header.
 
 - I'm not a server guy, I'm a frontend web guy. These files might suck.
 - Not tested anywhere except our dev & production servers. Probably IIS7.5 specific, definitely won't work on IIS6.
-- A lot of this is probably easier done through the Server Manager GUI, but damn am I confused by that thing.
+- A lot of this is probably easily done through the Server Manager GUI, but I don't know how to use that thing and prefer text configuration files which can be versioned.
 
 ## License
 
