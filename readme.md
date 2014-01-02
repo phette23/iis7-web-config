@@ -70,3 +70,5 @@ Note the differences in the Cache-Control header.
 [WTFPL](http://sam.zoy.org/wtfpl/)
 
 The image included in the static directory is in the Public Domain (yay!) & I found it via the awesome [Noun Project](http://thenounproject.com/noun/library/#icon-No191).
+
+[![Analytics](https://ga-beacon.appspot.com/UA-29080462-2/iis7-web-config/readme?pixel)](https://github.com/igrigorik/ga-beacon)
